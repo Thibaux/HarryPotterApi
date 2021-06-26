@@ -1,6 +1,6 @@
 const rateLimit = require("express-rate-limit");
 const express = require('express');
-const { getCharacters, getCharacterById, addOrUpdateCharacter, deleteCharacterById } = require('./dynamo');
+const { getCharacters, getCharacterById, addOrUpdateCharacter, deleteCharacterById } = require('./src/dynamo');
 const { body, validationResult, check } = require('express-validator');
 const app = express();
 

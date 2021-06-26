@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "serve_api": "nodemon app.js",
     "test": "nope"
   },
   "author": "",
