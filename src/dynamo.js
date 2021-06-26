@@ -19,7 +19,6 @@ const getCharacters = async () => {
 
     const characters = await dynamoClient.scan(params).promise();
 
-    console.log(characters)
     return characters;
 }
 
@@ -54,7 +53,6 @@ const deleteCharacterById = async (id) => {
 
     return await dynamoClient.delete(params).promise();
 }
-
 
 module.exports = {
     dynamoClient,
