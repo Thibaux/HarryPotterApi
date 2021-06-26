@@ -27,7 +27,7 @@ app.use(express.json());
 
 
 //  Healt check
-app.get('api/', (req, res) => {
+app.get('/', (req, res) => {
     const healtymss = 'API is healty!';
 
     res.send(healtymss);
