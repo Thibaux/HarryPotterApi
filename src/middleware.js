@@ -1,8 +1,7 @@
 const express = require('express');
 const app = express();
 const rateLimit = require("express-rate-limit");
-
-const apiRouter = express.Router();
+const apiRouter = require('./routes');
 
 // Rate limit a IP adress for 5 minutes after 25 calls
 const limiter = rateLimit({

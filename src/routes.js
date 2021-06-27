@@ -2,15 +2,14 @@ const express = require('express');
 const app = express();
 const { getCharacters, getCharacterById, addOrUpdateCharacter, deleteCharacterById } = require('./dynamo');
 const { body, validationResult, check } = require('express-validator');
-const apiRouter = require('./middleware');
+const apiRouter = express.Router();
 
-
-//  Healt check
+//  Health check
 apiRouter.get('/', (req, res) => {
-    const healtymss = 'API is healty!';
+    const healthMss = 'API is healthy!';
 
-    res.send(healtymss);
-    return healtymss;
+    res.send(healthMss);
+    return healthMss;
 });
 
 
@@ -44,14 +43,14 @@ apiRouter.get('/characters/:id', async (req, res) => {
 
 // Post a new character
 apiRouter.post('/characters/create', [
-    check('id').not().isEmpty(),
-    check('id').isInt().withMessage("id must be a int."),
-    check('firstName').not().isEmpty(),
-    check('lastName').not().isEmpty(),
-    check('species').not().isEmpty(),
-    check('actor').not().isEmpty(),
-    check('house').not().isEmpty()
-],
+        check('id').not().isEmpty(),
+        check('id').isInt().withMessage("id must be a int."),
+        check('firstName').not().isEmpty(),
+        check('lastName').not().isEmpty(),
+        check('species').not().isEmpty(),
+        check('actor').not().isEmpty(),
+        check('house').not().isEmpty()
+    ],
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -77,9 +76,7 @@ apiRouter.post('/characters/create', [
 // Update character
 apiRouter.post('/characters/update/:id', async (req, res) => {
     const character = req.body;
-    const id = req.params.id
-
-    character.id = id;
+    character.id = req.params.id;
 
     try {
         const updatedChar = await addOrUpdateCharacter(character)

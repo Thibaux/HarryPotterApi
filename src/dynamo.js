@@ -38,8 +38,19 @@ const addOrUpdateCharacter = async (character) => {
         TableName: TABLE_NAME,
         Item: character,
     };
-    return await dynamoClient.put(params).promise();
+
+    dynamoClient.put(params, function (err, data) {
+        if (err) {
+            console.log(params);
+            console.log("Oh no");
+        } else {
+            console.log(data);
+            return data;
+        }
+    })
 };
+
+
 
 const deleteCharacterById = async (id) => {
     const params = {

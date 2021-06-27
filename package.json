@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "nope"
+    "start": "node start.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +21,8 @@
     "express-validator": "^6.12.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "jest": "^27.0.5",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3"
   }
 }
