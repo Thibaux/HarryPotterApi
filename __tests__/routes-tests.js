@@ -14,7 +14,16 @@ describe('Test the routes.', () => {
             .expect(200)
             .then((response) => {
                 expect(response.body.Items[0]).toEqual(firstChar)
-                console.log(response.body.Items[0])
+            })
+    })
+
+    it('The post characters route.', async () => {
+        request(server)
+            .post('/api/characters/create')
+            .send({ "id": "101" })
+            .expect(200)
+            .then((response) => {
+                expect(response.body.id).toEqual("101")
             })
     })
 })

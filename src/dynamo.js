@@ -17,9 +17,7 @@ const getCharacters = async () => {
         TableName: TABLE_NAME
     };
 
-    const characters = await dynamoClient.scan(params).promise();
-
-    return characters;
+    return await dynamoClient.scan(params).promise();
 }
 
 const getCharacterById = async (id) => {
@@ -39,15 +37,7 @@ const addOrUpdateCharacter = async (character) => {
         Item: character,
     };
 
-    dynamoClient.put(params, function (err, data) {
-        if (err) {
-            console.log(params);
-            console.log("Oh no");
-        } else {
-            console.log(data);
-            return data;
-        }
-    })
+    return await dynamoClient.put(params).promise();
 };
 
 
