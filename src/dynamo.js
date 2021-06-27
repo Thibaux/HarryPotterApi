@@ -33,15 +33,13 @@ const getCharacterById = async (id) => {
     return await dynamoClient.get(params).promise();
 }
 
-
 const addOrUpdateCharacter = async (character) => {
     const params = {
         TableName: TABLE_NAME,
         Item: character,
     };
-
     return await dynamoClient.put(params).promise();
-}
+};
 
 const deleteCharacterById = async (id) => {
     const params = {
