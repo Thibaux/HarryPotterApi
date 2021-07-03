@@ -1,6 +1,6 @@
 const express = require('express');
 const { getCharacters, getCharacterById, addOrUpdateCharacter, deleteCharacterById } = require('./dynamo');
-const { body, validationResult, check } = require('express-validator');
+const { validationResult, check } = require('express-validator');
 const bodyParser = require('body-parser');
 
 const apiRouter = express.Router();
@@ -51,14 +51,14 @@ apiRouter.get('/characters/:id', async (req, res) => {
 
 // Post a new character
 apiRouter.post('/characters/create', [
-        check('id').not().isEmpty(),
-        check('id').isInt().withMessage("id must be a int."),
-        check('firstName').not().isEmpty(),
-        check('lastName').not().isEmpty(),
-        check('species').not().isEmpty(),
-        check('actor').not().isEmpty(),
-        check('house').not().isEmpty()
-    ],
+    check('id').not().isEmpty(),
+    check('id').isInt().withMessage("id must be a int."),
+    check('firstName').not().isEmpty(),
+    check('lastName').not().isEmpty(),
+    check('species').not().isEmpty(),
+    check('actor').not().isEmpty(),
+    check('house').not().isEmpty()
+],
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -87,7 +87,7 @@ apiRouter.post('/characters/create', [
 
 
 // Update character
-apiRouter.  post('/characters/update/:id', async (req, res) => {
+apiRouter.post('/characters/update/:id', async (req, res) => {
     const character = req.body;
     character.id = req.params.id;
 
@@ -116,6 +116,7 @@ apiRouter.delete('/characters/:id', async (req, res) => {
             res.status(400)
             res.json('The character with id: ' + id + ' could not be found.');
         } else {
+            deleteCharacterById(id);
             res.json("Character with id: " + id + " deleted.");
         }
 
@@ -125,11 +126,10 @@ apiRouter.delete('/characters/:id', async (req, res) => {
     }
 });
 
-async function checkItem (characterId) {
+async function checkItem(characterId) {
     const id = await getCharacterById(characterId);
 
     if (Object.keys(id).length === 0 && id.constructor === Object) {
-        console.log('sdf')
         return 'err';
     } else {
         return id;
