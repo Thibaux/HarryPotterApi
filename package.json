@@ -3,16 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
-    "build": "node start.js",
-    "start": "node start.js",
+    "start": "node index.js",
     "test": "jest"
   },
   "author": "",
   "license": "ISC",
-  "engines": {
-    "node": "14.x"
-  },
   "dependencies": {
     "aws-sdk": "^2.931.0",
     "axios": "^0.21.1",

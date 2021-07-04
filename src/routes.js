@@ -9,6 +9,7 @@ apiRouter.use(bodyParser.json());
 
 //  Health check
 apiRouter.get('/', (req, res) => {
+    console.log('target')
     const healthMss = 'API is healthy!';
 
     res.send(healthMss);
