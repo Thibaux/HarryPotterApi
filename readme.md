@@ -1,4 +1,5 @@
 # Nodejs Harry Potter REST API
+[![CI](https://github.com/Thibaux/nodejs_hp_api/actions/workflows/ci.yml/badge.svg)](https://github.com/Thibaux/nodejs_hp_api/actions/workflows/ci.yml)
 
 A REST API that returns Harry Potter characters.\
 Inclusive rate limiter, logger and request validation.
