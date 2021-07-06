@@ -16,10 +16,10 @@ jobs:
       # Hack because I couldn't find a solution
       - name: Run the server & run the test 
         run: |
-          npm run start
+          npm run --silent start
           PID=$!
           sleep 5
-          npm run test
+          npm run --silent test
           sleep 2
           kill $PID
           kill $PID
