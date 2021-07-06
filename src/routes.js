@@ -5,7 +5,10 @@ const bodyParser = require('body-parser');
 
 const apiRouter = express.Router();
 
-apiRouter.use(bodyParser.json());
+apiRouter.use(express.urlencoded({
+    extended: true
+}));
+apiRouter.use(express.json());
 
 //  Health check
 apiRouter.get('/', (req, res) => {
@@ -37,10 +40,12 @@ apiRouter.get('/characters/:id', async (req, res) => {
     try {
         const checkedId = await checkItem(id);
 
-        if (checkedId === 'err') {
+        if (checkedId === false) {
             res.status(400)
             res.json('The character with id: ' + id + ' could not be found.');
         } else {
+            await getCharacterById(id);
+
             res.json(checkedId.Item);
         }
 
@@ -59,32 +64,34 @@ apiRouter.post('/characters/create', [
     check('species').not().isEmpty(),
     check('actor').not().isEmpty(),
     check('house').not().isEmpty()
-],
-    async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-
-        const character = req.body;
-
-        try {
-            const newChar = await addOrUpdateCharacter(character);
-
-            if (Object.keys(newChar).length === 0 && newChar.constructor === Object) {
-                res.status(400)
-                res.json('The character with id: ' + newChar + 'already exist.');
-            } else {
-                res.json(character);
-            }
-
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ err: "Something went wrong" });
-        }
-
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
-);
+
+    const character = req.body;
+
+    try {
+        const newChar = await checkItem(req.body.id);
+
+        if (newChar === false) {
+            await addOrUpdateCharacter(character);
+
+            res.status(201)
+            res.json(character);
+
+        } else {
+            res.status(400)
+            res.json('The character with id: ' + req.body.id + ' already exist.');
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500)
+            .json({ err: "Something went wrong" });
+    }
+});
 
 
 // Update character
@@ -113,11 +120,12 @@ apiRouter.delete('/characters/:id', async (req, res) => {
     try {
         const checkedId = await checkItem(id);
 
-        if (checkedId === 'err') {
+        if (checkedId === false) {
             res.status(400)
             res.json('The character with id: ' + id + ' could not be found.');
         } else {
-            deleteCharacterById(id);
+            await deleteCharacterById(id);
+            res.status(204)
             res.json("Character with id: " + id + " deleted.");
         }
 
@@ -127,11 +135,13 @@ apiRouter.delete('/characters/:id', async (req, res) => {
     }
 });
 
+
+// Check if a item with the id already exists.
 async function checkItem(characterId) {
     const id = await getCharacterById(characterId);
 
-    if (Object.keys(id).length === 0 && id.constructor === Object) {
-        return 'err';
+    if (Object.entries(id).length === 0 && id.constructor === Object) {
+        return false;
     } else {
         return id;
     }
