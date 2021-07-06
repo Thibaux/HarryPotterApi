@@ -13,13 +13,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Hack because I couldn't find a solution
       - name: Run the server & run the test 
-        run: |
-          npm run start --silent
-          PID=$!
-          sleep 5
-          npm run test --silent
-          sleep 2
-          kill $PID
-          kill $PID
+        run: npm run test
