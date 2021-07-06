@@ -13,8 +13,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run API server
-        run: npm run start
-        
-      - name: Run tests
-        run: npm run test
+      # Hack because I couldn't find a solution
+      - name: Run the server & run the test 
+        run: |
+          npm run start
+          PID=$!
+          sleep 5
+          npm run test
+          sleep 2
+          kill $PID
+          kill $PID
