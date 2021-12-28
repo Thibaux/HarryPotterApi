@@ -7,6 +7,10 @@ server.use(express.urlencoded({
 }));
 server.use(express.json());
 
+server.get('/', (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+})
+
 server.use('/api', routes);
 
 module.exports = server;
