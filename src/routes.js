@@ -10,6 +10,19 @@ apiRouter.use(express.urlencoded({
 }));
 apiRouter.use(express.json());
 
+apiRouter.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
+
+    next()
+})
+
+
+
 //  Health check
 apiRouter.get('/', (req, res) => {
     console.log('target')
